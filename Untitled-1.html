@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Combinações</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        input, button {
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #results {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: left;
+        }
+        .combination {
+            margin: 5px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 20px;
+            }
+            input, button {
+                font-size: 14px;
+                padding: 10px;
+            }
+            .combination {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 18px;
+            }
+            input, button {
+                font-size: 12px;
+                padding: 8px;
+            }
+            .combination {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Gerador de Combinações para o Projeto</h1>
+    <input type="text" id="numbers" placeholder="Coloque os números para gerar">
+    <button onclick="generateCombinations()">Gerar Combinações</button>
+    <div id="results"></div>
+</div>
+
+<script>
+    function generateCombinations() {
+        const input = document.getElementById('numbers').value;
+        const numbers = input.split(',').map(num => num.trim()).filter(num => num !== '');
+
+        if (numbers.length === 0) {
+            alert('Please enter at least one number.');
+            return;
+        }
+
+        const combinations = getAllCombinations(numbers);
+        displayCombinations(combinations);
+    }
+
+    function getAllCombinations(array) {
+        let results = [[]];
+
+        for (let i = 0; i < array.length; i++) {
+            const currentNum = array[i];
+            const tempResults = [];
+
+            results.forEach(result => {
+                const newCombination = result.concat(currentNum);
+                tempResults.push(newCombination);
+            });
+
+            results = results.concat(tempResults);
+        }
+
+        return results.slice(1);
+    }
+
+    function displayCombinations(combinations) {
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.innerHTML = '';
+
+        combinations.forEach(combination => {
+            const div = document.createElement('div');
+            div.className = 'combination';
+            div.textContent = combination.join(', ');
+            resultsDiv.appendChild(div);
+        });
+    }
+</script>
+
+</body>
+</html>
